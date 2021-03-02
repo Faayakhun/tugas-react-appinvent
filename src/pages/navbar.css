@@ -1,0 +1,12 @@
+.navRight {
+    position: fixed;
+    left: 85%;
+}
+
+.hide {
+    display: none;
+}
+
+.unhide {
+    display: block;
+}
