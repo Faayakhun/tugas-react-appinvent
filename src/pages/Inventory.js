@@ -2,37 +2,45 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import Register from './Register'
+import Table from 'react-bootstrap/Table' 
+import Container from 'react-bootstrap/Container'
+import Col from 'react-bootstrap/Col'
+import Accordion from 'react-bootstrap/Accordion'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import styled from 'styled-components'
+
+const Input = styled.input`
+padding: 0.5em;
+margin: 0.5em;
+color: ${props => props.inputColor || "teal"};
+background: lavender;
+border: none;
+border-radius: 3px;
+`;
 
 export default function Inventory() {
+ 
+
     const history = useHistory()
     const toRegister = () => history.push('/register')
-    const isLogin = localStorage.getItem("isLoggedIn")
-    
     const [product, setProduct] = useState([])
     const [input, setInput] = useState("")
-    const [inputData,setInputData] = useState("")
     let localData = localStorage.getItem("user")
     let localDataUser = JSON.parse(localData)
-      
+  
     useEffect(() => {
       if (!localStorage.user) {
+        alert("You have to register first")
         toRegister()
         return (<Register />)
-        alert("You have to register first")
       }
       axios.get(`https://603cd864f4333a0017b68722.mockapi.io/user/${localDataUser.id}/inventory`)
       .then(result => setProduct(result.data))
     }, [])
-    if (!localStorage.user) {
-      alert("You have to register first")
-      toRegister()
-      return (<Register />)
-    }
+  
     const handleChange = (e) => {
       setInput(e.target.value)
-    }
-    const handleChangeData = (e) => {
-      setInputData(e.target.value)
     }
   
     const handleSubmit = (e) => {
@@ -72,76 +80,68 @@ export default function Inventory() {
           .then(result => setProduct(result.data))
         })
         .catch(err => console.log(err))
-
-        setInputData("")
       }
-
-      const handleLogout = () => {
-        localStorage.clear()
-        toRegister()
-      }
-      
-
     return (
-      <div className="container">
-        <div>
-        <div className="flex-row">
-        <div className="flex-large">
-        <h2>Add Item</h2>
-        <form onSubmit={handleSubmit}>
-        <input type="text" name="textProduct" value={input} onChange={handleChange}/>
-        <button>OK</button>
-      </form>
-      </div>
+      <Container>
+      <div>
+      <div className="flex-row">
       <div className="flex-large">
-      <h2>View item</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Product Name</th>
-            <th className ="col-4">Action</th>
-          </tr>
-        </thead>
-      <tbody>
-        {product.map((item,index) => (
-          <tr key={index}>
-            <td>{item.name}</td>
-            <td>
-            <button className="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" id="customModal" onClick={(e) => handleUpdate(e, item)}>Update</button>
-            <button className="btn btn-sm btn-outline-danger" onClick={(e) => handleDelete(e, item)}>Delete</button>
-            </td>
-          </tr>
-        ))}
-        <td>
-        <button className="btn btn-sm btn-danger" onClick={handleLogout} >LOGOUT</button>
-        </td>
-      </tbody>
-      </table>
-      </div>
-      </div>
-      {/* <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title" id="exampleModalLabel">Update Form</h5>
-                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body">
-                  <form>
-                    <div className="mb-3">
-                      <label htmlFor="recipient-name" className="col-form-label">Product name :</label>
-                      <input type="text" className="form-control" id="recipient-name" value= {inputData} onChange={handleChangeData}/>
-                    </div>
-                  </form>
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal">update</button>
-                </div>
-              </div>
-            </div>
-          </div> */}
-        </div>
-        </div>
+      <Accordion defaultActiveKey="0">
+      <Accordion.Toggle as={Button} variant="text" eventKey="0">
+        <h1>Add Item</h1>
+      </Accordion.Toggle>
+      <Accordion.Collapse eventKey="0">
+      <Form>
+      <Form.Group controlId="formBasic">
+      <Input placeholder="product name" type="text" name="textProduct" value={input} onChange={handleChange}/>
+      </Form.Group>
+      <Button onClick={handleSubmit}>Add</Button>
+      </Form>
+      </Accordion.Collapse>
+      </Accordion>
+    </div>
+    <div className="flex-large">
+    <h3>View Item</h3>
+    <Table>
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <Col></Col>
+          <th>Action</th>
+        </tr>
+      </thead>
+    <tbody>
+      { product.length > 0 ? (
+      product.map((item,index) => (
+        <tr key={index}>
+          <td>{item.name}</td>
+          <Col></Col>
+          <td>
+          
+          <button className="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" id="customModal" onClick={(e) => handleUpdate(e, item)}>Update</button>
+          <button className="btn btn-sm btn-outline-danger" onClick={(e) => handleDelete(e, item)}>Delete</button>
+          
+          </td>
+        </tr>
+      ))) : <tr>
+      <td>No product</td>
+    </tr>}
+    </tbody>
+    </Table>
+    </div>
+    </div>
+    </div>
+    </Container>
     )
 }
+
+
+
+
+
+
+
+
+
+
+

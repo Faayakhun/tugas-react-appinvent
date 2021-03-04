@@ -1,8 +1,17 @@
 import axios from 'axios'
+import { Form } from 'react-bootstrap'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import styled from 'styled-components'
 
-
+const Input = styled.input`
+padding: 0.5em;
+margin: 0.5em;
+color: ${props => props.inputColor || "firebrick"};
+background: lavender;
+border: none;
+border-radius: 3px;
+`;
 export default function Register() {
     
     const history = useHistory()
@@ -51,10 +60,10 @@ export default function Register() {
         <div>
             <div style={divStyle} className="card col-12 col-lg-4 login-card mt-2 hv-center">
             <h1>REGISTRATION FORM</h1>
-            <form>
+            <Form>
             <div className="form-group text-left">
                 <label htmlFor="exampleInputName">Name</label>
-                <input type="text" 
+                <Input inputColor="rebeccapurple" type="text" 
                         className="form-control" 
                         id="name" 
                         placeholder="Enter Name"
@@ -64,7 +73,7 @@ export default function Register() {
                 </div>
                 <div className="form-group text-left">
                 <label htmlFor="exampleInputEmail1">Email address</label>
-                <input type="email" 
+                <Input inputColor="aqua" type="email" 
                         className="form-control" 
                         id="email" 
                         placeholder="Enter email"
@@ -74,7 +83,7 @@ export default function Register() {
                 </div>
                 <div className="form-group text-left">
                     <label htmlFor="exampleInputPassword1">Password</label>
-                    <input type="password" 
+                    <Input type="password" 
                         className="form-control" 
                         id="password" 
                         placeholder="Password"
@@ -84,7 +93,7 @@ export default function Register() {
                 </div>
                 <div className="form-group text-left">
                     <label htmlFor="exampleInputPassword1">Confirm Password</label>
-                    <input type="password" 
+                    <Input type="password" 
                         className="form-control" 
                         id="confirmPassword" 
                         placeholder="Confirm Password"
@@ -99,7 +108,7 @@ export default function Register() {
                 >
                     Register
                 </button>
-            </form>
+            </Form>
         </div>
         </div>
     )

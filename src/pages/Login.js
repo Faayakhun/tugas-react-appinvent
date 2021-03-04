@@ -1,8 +1,10 @@
+import { Form } from 'react-bootstrap'
 import axios from 'axios'
-import React, {useState} from 'react'
+import React, {useState,} from 'react'
 import { useHistory } from 'react-router-dom'
 
-export default function Login() {
+
+export default function Login(props) {
     const history = useHistory()
     const toInventory = () => history.push('/inventory')
     const divStyle = {
@@ -35,6 +37,7 @@ export default function Login() {
                     let {password,...restUser} = user
                     localStorage.setItem("user", JSON.stringify(restUser))
                     localStorage.setItem("isLoggedIn", true)
+                    props.setIsLogin(true)
                     alert("Login success")
                     alert("Redirect you to inventory page")
                     toInventory()
@@ -50,7 +53,7 @@ export default function Login() {
         <div>
             <div style={divStyle} className="card col-12 col-lg-4 login-card mt-2 hv-center">
             <h1>LOGIN FORM</h1>
-            <form>
+            <Form>
                 <div className="form-group text-left">
                 <label htmlFor="exampleInputEmail1">Email address</label>
                 <input type="email" 
@@ -79,7 +82,7 @@ export default function Login() {
                     className="btn btn-primary"
                     onClick={handleSubmitClick}
                 >Login</button>
-            </form>
+            </Form>
         </div>
         </div>
     )
