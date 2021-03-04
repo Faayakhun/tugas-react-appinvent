@@ -33,7 +33,7 @@ export default function Navigation({isLogin, setIsLogin}) {
                     {isLogin ? <Button variant="danger" onClick={handleLogout}>Logout</Button> : <Link to = "/login">Login</Link>  }
                 </li>
                 <li id="regisNav" className="btn btn-dark" >
-                    {isLogin ? <span>{localUserObj.name}</span> :<Link to = "/register">Register</Link>}
+                {isLogin ? <span>{localUserObj.name}</span> : <Link to = "/register">Register</Link>  }
                 </li>
                 </div>
           </div>
